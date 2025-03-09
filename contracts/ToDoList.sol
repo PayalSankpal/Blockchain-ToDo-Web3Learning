@@ -17,6 +17,11 @@ contract ToDoList {
         bool completed
     );
 
+    event ToggleCompleted (
+        uint id,
+        bool completed
+    );
+
     constructor() public {
         createTask("Complete SE SRS!");
     }
@@ -25,5 +30,12 @@ contract ToDoList {
         taskCount++;
         tasks[taskCount] = Task(taskCount, _content, false);
         emit TaskCreated(taskCount, _content, false);
+    }
+
+    function toggleCompleted(uint _id) public {
+        Task memory _task = tasks[_id];
+        _task.completed = !_task.completed;
+        tasks[_id]=_task;
+        emit ToggleCompleted(_id, _task.completed);
     }
 }
